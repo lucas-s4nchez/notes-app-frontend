@@ -1,7 +1,14 @@
 import { useState } from "react";
+import { AppTheme } from "./theme";
 
-function NotesApp() {
-  return <h1>Vite + React +Typescript</h1>;
-}
+const NotesApp: React.FC = () => {
+  return (
+    <>
+      <AppTheme>
+        <h1>Vite + React +Typescript</h1>;
+      </AppTheme>
+    </>
+  );
+};
 
 export default NotesApp;

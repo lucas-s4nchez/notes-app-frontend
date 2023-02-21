@@ -25,7 +25,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           color="primary"
           edge="start"
           onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { md: "none" } }}
+          sx={{ mr: 2, display: { md: "none" }, color: "text.primary" }}
         >
           <MenuOutlined />
         </IconButton>

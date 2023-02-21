@@ -4,7 +4,7 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
+  Typography,
 } from "@mui/material";
 import { TurnedInNot } from "@mui/icons-material";
 import { SidebarItemProps } from "../../interfaces";
@@ -28,15 +28,16 @@ export const SidebarItem: React.MemoExoticComponent<
           <TurnedInNot />
         </ListItemIcon>
         <Grid container overflow="hidden">
-          <ListItemText
-            primary={title}
+          <Typography
             sx={{
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
             }}
-          />
-          <ListItemText secondary={content} />
+          >
+            {title}
+          </Typography>
+          <Typography>{content}</Typography>
         </Grid>
       </ListItemButton>
     </ListItem>

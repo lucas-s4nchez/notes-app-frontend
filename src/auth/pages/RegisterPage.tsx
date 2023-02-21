@@ -54,6 +54,8 @@ export const RegisterPage: React.FC = () => {
               type="text"
               placeholder="Tu nombre"
               fullWidth
+              autoComplete="off"
+              focused={true}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -72,6 +74,8 @@ export const RegisterPage: React.FC = () => {
               type="email"
               placeholder="correo@correo.com"
               fullWidth
+              autoComplete="off"
+              focused={true}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -91,6 +95,7 @@ export const RegisterPage: React.FC = () => {
               placeholder="Contraseña"
               fullWidth
               autoComplete="password"
+              focused={true}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">

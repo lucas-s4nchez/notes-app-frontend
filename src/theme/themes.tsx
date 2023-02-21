@@ -10,14 +10,14 @@ export const lightTheme = createTheme({
       main: "#000000",
     },
     error: {
-      main: "#d50000",
+      main: "#ff1744",
     },
     text: {
-      primary: "#333333", // color primario de la fuente en tema claro
-      secondary: "#666666", // color secundario de la fuente en tema claro
+      primary: "#222222",
+      secondary: "#f1f1f1",
     },
     background: {
-      paper: "#e7e7e7", // Color de fondo de Paper
+      paper: "#e7e7e7",
     },
   },
 });
@@ -31,14 +31,14 @@ export const darkTheme = createTheme({
       main: "#000000",
     },
     error: {
-      main: "#d50000",
+      main: "#ff1744",
     },
     text: {
-      primary: "#ffffff", // color primario de la fuente en tema claro
-      secondary: "#cccccc", // color secundario de la fuente en tema claro
+      primary: "#ffffff",
+      secondary: "#222222",
     },
     background: {
-      paper: "#212121", // Color de fondo de Paper
+      paper: "#212121",
     },
   },
 });

@@ -43,12 +43,13 @@ export const LoginPage: React.FC = () => {
     <AuthLayout title={"Iniciar sesión"}>
       <form onSubmit={handleSubmit}>
         <Grid container>
-          <Grid item xs={12} sx={{ mt: 2 }}>
+          <Grid item xs={12} sx={{ mt: 2, color: "secondary.main" }}>
             <TextField
               label="Correo"
               type="email"
               placeholder="correo@correo.com"
               autoComplete="off"
+              focused={true}
               fullWidth
               // name="email"
               InputProps={{
@@ -70,6 +71,7 @@ export const LoginPage: React.FC = () => {
               placeholder="Contraseña"
               fullWidth
               autoComplete="password"
+              focused={true}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">

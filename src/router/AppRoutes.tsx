@@ -5,7 +5,7 @@ import { HomePage } from "../notes/pages";
 // type AuthenticationState = Authenticated | NotAuthenticated | Checking;
 
 export const AppRoutes = () => {
-  const status: string = "not-authenticated";
+  const status: string = "authenticated";
 
   return (
     <Routes>

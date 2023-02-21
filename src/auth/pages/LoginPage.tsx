@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import {
-  Alert,
-  Box,
   Button,
   Grid,
   IconButton,
@@ -11,7 +9,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Google from "@mui/icons-material/Google";
 import EmailIcon from "@mui/icons-material/Email";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -20,7 +17,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { AuthLayout } from "../layout";
 
-export const LoginPage = () => {
+export const LoginPage: React.FC = () => {
   const { getFieldProps, handleSubmit, errors, touched } = useFormik({
     initialValues: {
       email: "",

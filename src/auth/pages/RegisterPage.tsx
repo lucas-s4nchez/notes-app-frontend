@@ -1,10 +1,8 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
-  Alert,
-  Box,
   Button,
   Grid,
   IconButton,
@@ -19,7 +17,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { AuthLayout } from "../layout";
 
-export const RegisterPage = () => {
+export const RegisterPage: React.FC = () => {
   const { getFieldProps, handleSubmit, errors, touched } = useFormik({
     initialValues: {
       displayName: "",

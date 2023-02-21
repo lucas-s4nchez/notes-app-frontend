@@ -4,7 +4,7 @@ import { HomePage } from "../notes/pages";
 
 // type AuthenticationState = Authenticated | NotAuthenticated | Checking;
 
-export const AppRoutes = () => {
+export const AppRoutes: React.FC = () => {
   const status: string = "authenticated";
 
   return (

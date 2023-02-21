@@ -42,13 +42,6 @@ export const LoginPage = () => {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  // const handleMouseDownPassword = (event) => {
-  //   event.preventDefault();
-  // };
-
-  const onRedirect = () => {
-    console.log("jiji");
-  };
   return (
     <AuthLayout title={"Iniciar sesión"}>
       <form onSubmit={handleSubmit}>
@@ -89,13 +82,13 @@ export const LoginPage = () => {
               type={showPassword ? "text" : "password"}
               placeholder="Contraseña"
               fullWidth
+              autoComplete="password"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
-                      // onMouseDown={handleMouseDownPassword}
                       edge="end"
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -120,11 +113,10 @@ export const LoginPage = () => {
               ¿No tienes una cuenta?
             </Typography>
             <Link
-              onClick={onRedirect}
               component={RouterLink}
               sx={{ fontSize: 14 }}
               color="inherit"
-              to={"/register"}
+              to={"/auth/register"}
             >
               registrarse
             </Link>

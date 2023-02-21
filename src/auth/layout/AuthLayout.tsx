@@ -7,7 +7,13 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
   title,
 }: AuthLayoutProps) => {
   return (
-    <Box sx={{ minHeight: "100vh", display: "grid", placeItems: "center" }}>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "grid",
+        placeItems: "center",
+      }}
+    >
       <WrapperBox>
         <Paper
           sx={{

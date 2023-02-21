@@ -45,13 +45,11 @@ export const LoginPage: React.FC = () => {
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2, color: "secondary.main" }}>
             <TextField
-              label="Correo"
+              label="Correo electronico"
               type="email"
               placeholder="correo@correo.com"
               autoComplete="off"
-              focused={true}
               fullWidth
-              // name="email"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -62,6 +60,11 @@ export const LoginPage: React.FC = () => {
               {...getFieldProps("email")}
               error={!!errors.email && touched.email}
               helperText={touched.email && errors.email}
+              sx={{
+                "& label": {
+                  color: "text.primary",
+                },
+              }}
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -71,7 +74,6 @@ export const LoginPage: React.FC = () => {
               placeholder="Contraseña"
               fullWidth
               autoComplete="password"
-              focused={true}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -88,6 +90,11 @@ export const LoginPage: React.FC = () => {
               {...getFieldProps("password")}
               error={!!errors.password && touched.password}
               helperText={touched.password && errors.password}
+              sx={{
+                "& label": {
+                  color: "text.primary",
+                },
+              }}
             />
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>

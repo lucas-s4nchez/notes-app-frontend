@@ -16,11 +16,11 @@ export const HomePage: React.FC = () => {
           size="large"
           sx={{
             color: "white",
-            backgroundColor: "error.main",
+            backgroundColor: "primary.main",
             position: "fixed",
             right: 50,
             bottom: 50,
-            ":hover": { backgroundColor: "error.main", opacity: 0.9 },
+            ":hover": { backgroundColor: "primary.main", opacity: 0.9 },
           }}
           // onClick={onAddNewNote}
           // disabled={isSaving}

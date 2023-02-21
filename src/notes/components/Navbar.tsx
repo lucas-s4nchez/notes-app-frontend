@@ -18,14 +18,14 @@ export const Navbar: React.FC<NavbarProps> = ({
         ml: { md: `${drawerWidth}px` },
       }}
     >
-      <Toolbar>
+      <Toolbar sx={{ backgroundColor: "secondary.main" }}>
         <IconButton
           title="Abrir menú"
           aria-label="Abrir menú"
           color="primary"
           edge="start"
           onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { md: "none" }, color: "text.primary" }}
+          sx={{ mr: 2, display: { md: "none" }, color: "primary.main" }}
         >
           <MenuOutlined />
         </IconButton>
@@ -35,8 +35,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           justifyContent="space-between"
           alignItems="center"
         >
-          <Typography variant="h6" noWrap component="div">
-            JournalApp
+          <Typography variant="h6" noWrap component="div" color="text.primary">
+            NotesApp
           </Typography>
           <IconButton
             title="Salir"

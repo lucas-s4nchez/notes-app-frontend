@@ -11,17 +11,14 @@ export const NothingSelectedView: React.FC = () => {
       justifyContent="center"
       sx={{
         minHeight: "calc(100vh - 115px)",
-        backgroundColor: "primary.main",
-        padding: 4,
-        borderRadius: 1,
       }}
     >
       <Grid item xs={12}>
-        <PostAddOutlinedIcon sx={{ fontSize: 100, color: "secondary.main" }} />
+        <PostAddOutlinedIcon sx={{ fontSize: 100 }} />
       </Grid>
       <Grid item xs={12}>
-        <Typography color="secondary.main" variant="h6" textAlign="center">
-          Selecciona o crea una entrada
+        <Typography variant="h6" textAlign="center">
+          Selecciona o crea una nota
         </Typography>
       </Grid>
     </Grid>

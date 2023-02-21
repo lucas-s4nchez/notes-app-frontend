@@ -50,12 +50,11 @@ export const RegisterPage: React.FC = () => {
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
-              label="Nombre completo"
+              label="Nombre de usuario"
               type="text"
               placeholder="Tu nombre"
               fullWidth
               autoComplete="off"
-              focused={true}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -66,16 +65,20 @@ export const RegisterPage: React.FC = () => {
               {...getFieldProps("displayName")}
               error={!!errors.displayName && touched.displayName}
               helperText={touched.displayName && errors.displayName}
+              sx={{
+                "& label": {
+                  color: "text.primary",
+                },
+              }}
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
-              label="Correo"
+              label="Correo electronico"
               type="email"
               placeholder="correo@correo.com"
               fullWidth
               autoComplete="off"
-              focused={true}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -86,6 +89,11 @@ export const RegisterPage: React.FC = () => {
               {...getFieldProps("email")}
               error={!!errors.email && touched.email}
               helperText={touched.email && errors.email}
+              sx={{
+                "& label": {
+                  color: "text.primary",
+                },
+              }}
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -95,7 +103,6 @@ export const RegisterPage: React.FC = () => {
               placeholder="Contraseña"
               fullWidth
               autoComplete="password"
-              focused={true}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -112,6 +119,11 @@ export const RegisterPage: React.FC = () => {
               {...getFieldProps("password")}
               error={!!errors.password && touched.password}
               helperText={touched.password && errors.password}
+              sx={{
+                "& label": {
+                  color: "text.primary",
+                },
+              }}
             />
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>

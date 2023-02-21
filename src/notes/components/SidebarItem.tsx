@@ -1,6 +1,8 @@
 import { memo } from "react";
+import { styled } from "@mui/system";
 import {
-  Grid,
+  Box,
+  Divider,
   ListItem,
   ListItemButton,
   ListItemIcon,
@@ -13,6 +15,13 @@ const notes = [
   { id: "2", title: "nota 2", content: "content de nota 2", date: Date.now() },
 ];
 
+const TwoLinesText = styled(Typography)(({ theme }) => ({
+  display: "-webkit-box",
+  WebkitLineClamp: 1,
+  WebkitBoxOrient: "vertical",
+  overflow: "hidden",
+}));
+
 export const SidebarItem: React.MemoExoticComponent<
   React.FC<SidebarItemProps>
 > = memo(({ id, title, content }: SidebarItemProps) => {
@@ -22,24 +31,36 @@ export const SidebarItem: React.MemoExoticComponent<
   };
 
   return (
-    <ListItem disablePadding onClick={handleActiveNote}>
-      <ListItemButton>
-        <ListItemIcon>
-          <TurnedInNot />
-        </ListItemIcon>
-        <Grid container overflow="hidden">
-          <Typography
+    <>
+      <ListItem
+        disablePadding
+        onClick={handleActiveNote}
+        // sx={{ borderBottom: "1px solid #000" }}
+      >
+        <ListItemButton sx={{ padding: 1 }}>
+          <ListItemIcon
             sx={{
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
+              minWidth: "max-content",
+              maxHeight: "max-content",
+              paddingRight: 2,
             }}
           >
-            {title}
-          </Typography>
-          <Typography>{content}</Typography>
-        </Grid>
-      </ListItemButton>
-    </ListItem>
+            <TurnedInNot sx={{ width: "100%" }} />
+          </ListItemIcon>
+          <Box
+            sx={{
+              overflow: "hidden",
+              display: "flex",
+              flexDirection: "column",
+              gap: 1,
+            }}
+          >
+            <Typography>{title}</Typography>
+            <TwoLinesText>{content}</TwoLinesText>
+          </Box>
+        </ListItemButton>
+      </ListItem>
+      <Divider />
+    </>
   );
 });

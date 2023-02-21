@@ -13,7 +13,13 @@ import { SidebarItem } from "./SidebarItem";
 
 const notes = [
   { id: "1", title: "nota 1", content: "content de nota 1", date: Date.now() },
-  { id: "2", title: "nota 2", content: "content de nota 2", date: Date.now() },
+  {
+    id: "2",
+    title: "nota 2",
+    content:
+      "content de nota 2 ahsgdahg dsajd hgasjhdgs adhsga jhkajsdh kjsd hjkahd jhsadkjah",
+    date: Date.now(),
+  },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({

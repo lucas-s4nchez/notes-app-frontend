@@ -61,16 +61,6 @@ export const LoginPage: React.FC = () => {
               {...getFieldProps("email")}
               error={!!errors.email && touched.email}
               helperText={touched.email && errors.email}
-              sx={{
-                "& .css-z1o6sm-MuiFormLabel-root-MuiInputLabel-root.Mui-focused":
-                  {
-                    color: "text.secondary",
-                  },
-                "& .css-z1o6sm-MuiFormLabel-root-MuiInputLabel-root.Mui-error":
-                  {
-                    color: "error.main",
-                  },
-              }}
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -100,7 +90,13 @@ export const LoginPage: React.FC = () => {
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12}>
-              <Button type="submit" variant="contained" fullWidth>
+              <Button
+                title="Iniciar sesión"
+                aria-label="Iniciar sesión"
+                type="submit"
+                variant="contained"
+                fullWidth
+              >
                 <Typography>Iniciar sesion</Typography>
               </Button>
             </Grid>

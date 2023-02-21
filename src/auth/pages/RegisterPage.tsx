@@ -111,7 +111,13 @@ export const RegisterPage: React.FC = () => {
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12}>
-              <Button type="submit" variant="contained" fullWidth>
+              <Button
+                title="Crear cuenta"
+                aria-label="Crear cuenta"
+                type="submit"
+                variant="contained"
+                fullWidth
+              >
                 <Typography>Crear cuenta</Typography>
               </Button>
             </Grid>

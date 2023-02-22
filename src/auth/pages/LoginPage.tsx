@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import {
+  Alert,
   Button,
   Grid,
   IconButton,
@@ -16,8 +17,12 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { AuthLayout } from "../layout";
+import { useLoginMutation } from "../../store/apiSlice";
 
 export const LoginPage: React.FC = () => {
+  const [login, { isError, error, isLoading }] = useLoginMutation();
+  const loginErrors: any = error;
+
   const { getFieldProps, handleSubmit, errors, touched } = useFormik({
     initialValues: {
       email: "",
@@ -32,7 +37,7 @@ export const LoginPage: React.FC = () => {
         .required("Campo requerido"),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      login({ ...values });
     },
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -66,6 +71,11 @@ export const LoginPage: React.FC = () => {
                 },
               }}
             />
+            {isError && !!loginErrors?.data.errors?.email?.msg && (
+              <Alert variant="filled" severity="error" sx={{ marginBlock: 1 }}>
+                {loginErrors?.data?.errors?.email?.msg}
+              </Alert>
+            )}
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -96,6 +106,11 @@ export const LoginPage: React.FC = () => {
                 },
               }}
             />
+            {isError && !!loginErrors?.data.errors?.password?.msg && (
+              <Alert variant="filled" severity="error" sx={{ marginBlock: 1 }}>
+                {loginErrors?.data?.errors?.password?.msg}
+              </Alert>
+            )}
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12}>
@@ -105,6 +120,7 @@ export const LoginPage: React.FC = () => {
                 type="submit"
                 variant="contained"
                 fullWidth
+                disabled={isLoading}
               >
                 <Typography>Iniciar sesion</Typography>
               </Button>

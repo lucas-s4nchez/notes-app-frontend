@@ -9,18 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import { SidebarProps } from "../../interfaces";
+import { useGetNotesQuery } from "../../store/apiSlice";
 import { SidebarItem } from "./SidebarItem";
-
-const notes = [
-  { id: "1", title: "nota 1", content: "content de nota 1", date: Date.now() },
-  {
-    id: "2",
-    title: "nota 2",
-    content:
-      "content de nota 2 ahsgdahg dsajd hgasjhdgs adhsga jhkajsdh kjsd hjkahd jhsadkjah",
-    date: Date.now(),
-  },
-];
 
 export const Sidebar: React.FC<SidebarProps> = ({
   drawerWidth,
@@ -29,8 +19,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
   handleDrawerToggle,
   handleDrawerClose,
 }: SidebarProps) => {
+  const { data, isLoading: isLoadingNotes } = useGetNotesQuery();
+  console.log(data);
+
   const container =
     window !== undefined ? () => window().document.body : undefined;
+
+  if (isLoadingNotes) {
+    return <h1>cargando...</h1>;
+  }
   return (
     <Box
       component="nav"
@@ -71,8 +68,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </Toolbar>
         <Divider />
         <List>
-          {notes.map((note) => (
-            <SidebarItem key={note.id} {...note} />
+          {data?.map((note: any) => (
+            <SidebarItem key={note._id} {...note} />
           ))}
         </List>
       </Drawer>
@@ -92,8 +89,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </Toolbar>
         <Divider />
         <List>
-          {notes.map((note) => (
-            <SidebarItem key={note.id} {...note} />
+          {data?.map((note: any) => (
+            <SidebarItem key={note._id} {...note} />
           ))}
         </List>
       </Drawer>

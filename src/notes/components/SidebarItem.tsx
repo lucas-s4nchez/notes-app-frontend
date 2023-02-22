@@ -24,9 +24,9 @@ const TwoLinesText = styled(Typography)(({ theme }) => ({
 
 export const SidebarItem: React.MemoExoticComponent<
   React.FC<SidebarItemProps>
-> = memo(({ id, title, content }: SidebarItemProps) => {
+> = memo(({ _id, title, content, date, user }: SidebarItemProps) => {
   const handleActiveNote = (): void => {
-    const currentNote = notes.find((note) => note.id === id);
+    const currentNote = { _id, title, content, date, user };
     console.log(currentNote);
   };
 

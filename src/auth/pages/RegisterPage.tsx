@@ -3,6 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
+  Alert,
   Button,
   Grid,
   IconButton,
@@ -16,16 +17,20 @@ import EmailIcon from "@mui/icons-material/Email";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { AuthLayout } from "../layout";
+import { useRegisterMutation } from "../../store/apiSlice";
 
 export const RegisterPage: React.FC = () => {
+  const [register, { isError, error, isLoading }] = useRegisterMutation();
+  const registerError: any = error;
+
   const { getFieldProps, handleSubmit, errors, touched } = useFormik({
     initialValues: {
-      displayName: "",
+      username: "",
       email: "",
       password: "",
     },
     validationSchema: Yup.object({
-      displayName: Yup.string()
+      username: Yup.string()
         .trim()
         .required("Campo requerido")
         .min(3, "Minimo 3 caracteres"),
@@ -37,7 +42,7 @@ export const RegisterPage: React.FC = () => {
         .required("Campo requerido"),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      register({ ...values });
     },
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -62,15 +67,20 @@ export const RegisterPage: React.FC = () => {
                   </InputAdornment>
                 ),
               }}
-              {...getFieldProps("displayName")}
-              error={!!errors.displayName && touched.displayName}
-              helperText={touched.displayName && errors.displayName}
+              {...getFieldProps("username")}
+              error={!!errors.username && touched.username}
+              helperText={touched.username && errors.username}
               sx={{
                 "& label": {
                   color: "text.primary",
                 },
               }}
             />
+            {isError && !!registerError?.data.errors?.username?.msg && (
+              <Alert variant="filled" severity="error" sx={{ marginBlock: 1 }}>
+                {registerError?.data?.errors?.username?.msg}
+              </Alert>
+            )}
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -95,6 +105,11 @@ export const RegisterPage: React.FC = () => {
                 },
               }}
             />
+            {isError && !!registerError?.data.errors?.email?.msg && (
+              <Alert variant="filled" severity="error" sx={{ marginBlock: 1 }}>
+                {registerError?.data?.errors?.email?.msg}
+              </Alert>
+            )}
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -125,6 +140,11 @@ export const RegisterPage: React.FC = () => {
                 },
               }}
             />
+            {isError && !!registerError?.data.errors?.password?.msg && (
+              <Alert variant="filled" severity="error" sx={{ marginBlock: 1 }}>
+                {registerError?.data?.errors?.password?.msg}
+              </Alert>
+            )}
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12}>
@@ -134,6 +154,7 @@ export const RegisterPage: React.FC = () => {
                 type="submit"
                 variant="contained"
                 fullWidth
+                disabled={isLoading}
               >
                 <Typography>Crear cuenta</Typography>
               </Button>

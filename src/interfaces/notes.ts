@@ -11,7 +11,9 @@ export interface SidebarProps {
 }
 
 export interface SidebarItemProps {
-  id: string;
+  _id: string;
   title: string;
   content: string;
+  date: Date;
+  user: {};
 }

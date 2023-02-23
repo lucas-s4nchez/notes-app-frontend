@@ -19,9 +19,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   handleDrawerToggle,
   handleDrawerClose,
 }: SidebarProps) => {
-  const { data, isLoading: isLoadingNotes } = useGetNotesQuery();
-  console.log(data);
-
+  const token = localStorage.getItem("token") ?? "";
+  const { data: notes, isLoading: isLoadingNotes } = useGetNotesQuery(
+    localStorage.getItem("token") ?? ""
+  );
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -68,7 +69,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </Toolbar>
         <Divider />
         <List>
-          {data?.map((note: any) => (
+          {notes?.map((note: any) => (
             <SidebarItem key={note._id} {...note} />
           ))}
         </List>
@@ -89,7 +90,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </Toolbar>
         <Divider />
         <List>
-          {data?.map((note: any) => (
+          {notes?.map((note: any) => (
             <SidebarItem key={note._id} {...note} />
           ))}
         </List>

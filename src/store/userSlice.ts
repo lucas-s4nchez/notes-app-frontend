@@ -2,20 +2,31 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { api } from "./apiSlice";
 
-interface IErrorMessage {
-  password?: { value: string; msg: string };
-  email?: { value: string; msg: string };
-  username?: { value: string; msg: string };
+interface User {
+  ok?: boolean;
+  uid?: string;
+  username?: string;
+  token: string;
+}
+
+interface Note {
+  _id?: string;
+  title?: string;
+  content?: string;
+  data?: Date;
+  user?: User;
 }
 
 export interface IUserInitialState {
   status: "checking" | "authenticated" | "not-authenticated";
   user: { username: string; uid: string } | {};
+  activeNote: Note | null;
 }
 
 const initialState: IUserInitialState = {
   status: "checking",
   user: {},
+  activeNote: null,
 };
 
 export const userSlice = createSlice({
@@ -33,9 +44,15 @@ export const userSlice = createSlice({
       state.status = "authenticated";
       state.user = action.payload;
     },
-    onLogout: (state, action: PayloadAction<string>) => {
+    onLogout: (state) => {
       state.status = "not-authenticated";
       state.user = {};
+    },
+    onSetActiveNote: (state, { payload }) => {
+      state.activeNote = payload;
+    },
+    onClearActiveNote: (state) => {
+      state.activeNote = null;
     },
   },
   extraReducers: (builder) => {
@@ -46,9 +63,9 @@ export const userSlice = createSlice({
       })
       .addMatcher(api.endpoints.login.matchFulfilled, (state, { payload }) => {
         const { uid, username, token } = payload;
+        localStorage.setItem("token", token!);
         state.status = "authenticated";
         state.user = { uid, username };
-        localStorage.setItem("token", token!);
       })
       .addMatcher(api.endpoints.login.matchRejected, (state) => {
         state.status = "not-authenticated";
@@ -62,9 +79,9 @@ export const userSlice = createSlice({
         api.endpoints.register.matchFulfilled,
         (state, { payload }) => {
           const { uid, username, token } = payload;
+          localStorage.setItem("token", token!);
           state.status = "authenticated";
           state.user = { uid, username };
-          localStorage.setItem("token", token!);
         }
       )
       .addMatcher(api.endpoints.register.matchRejected, (state) => {
@@ -75,6 +92,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { onChecking, onLogin, onLogout } = userSlice.actions;
+export const { onChecking, onLogin, onLogout, onSetActiveNote } =
+  userSlice.actions;
 
 export default userSlice.reducer;

@@ -6,7 +6,7 @@ interface User {
   ok?: boolean;
   uid?: string;
   username?: string;
-  token?: string;
+  token: string;
 }
 interface LoginCredentials {
   email: string;
@@ -17,15 +17,25 @@ interface RegisterCredentials {
   password: string;
   username: string;
 }
+interface NoteBody {
+  title: string;
+  content: string;
+  date: number;
+  user:
+    | {
+        username: string;
+        uid: string;
+      }
+    | {};
+}
 interface Note {
   _id: string;
   title: string;
   content: string;
-  data: Date;
+  date: Date;
   user: User;
 }
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2M2VmYzEyN2RmZmVjYzAwZjY3MzI4ZGQiLCJ1c2VybmFtZSI6ImVtaXIiLCJpYXQiOjE2NzcwNDE5ODIsImV4cCI6MTY3NzA0OTE4Mn0.fmf0AyPTOPGf7Ewh2s31qt7_cXD2EWppjmEhH-OnGc0";
+const token = localStorage.getItem("token");
 
 export const api = createApi({
   reducerPath: "api",
@@ -56,23 +66,37 @@ export const api = createApi({
         },
       }),
     }),
-    getNotes: builder.query<Note[], void>({
-      query: () => ({
+    refeshToken: builder.query<any, void>({
+      query: (uid) => ({
+        url: "/auth/renew",
+        method: "GET",
+        headers: {
+          "x-token": token!,
+        },
+      }),
+    }),
+    getNotes: builder.query<Note[], string>({
+      query: (token: string) => ({
         url: "/notes",
         method: "GET",
         headers: {
           "x-token": token,
         },
+        refetchOnMountOrArgChange: true,
       }),
       transformResponse: (response: { ok: boolean; notes: Note[] }) =>
         response.notes,
       providesTags: ["notes"],
     }),
-    addNote: builder.mutation<void, Note>({
+
+    addNote: builder.mutation<void, NoteBody>({
       query: (note) => ({
         url: "/notes",
         method: "POST",
-        body: note,
+        headers: {
+          "x-token": token!,
+        },
+        body: { ...note },
       }),
       invalidatesTags: ["notes"],
     }),
@@ -97,6 +121,7 @@ export const api = createApi({
 export const {
   useLoginMutation,
   useRegisterMutation,
+  useRefeshTokenQuery,
   useGetNotesQuery,
   useAddNoteMutation,
   useUpdateNoteMutation,

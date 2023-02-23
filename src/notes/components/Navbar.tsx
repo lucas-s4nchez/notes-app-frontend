@@ -1,13 +1,18 @@
 import { LogoutOutlined, MenuOutlined } from "@mui/icons-material";
 import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material";
+import { useDispatch } from "react-redux";
 import { NavbarProps } from "../../interfaces";
+import { onLogout } from "../../store/userSlice";
 
 export const Navbar: React.FC<NavbarProps> = ({
   drawerWidth = 240,
   handleDrawerToggle,
 }: NavbarProps) => {
-  const onLogout = () => {
-    console.log("jiji");
+  const dispatch = useDispatch();
+
+  const logout = () => {
+    dispatch(onLogout());
+    localStorage.clear();
   };
 
   return (
@@ -42,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             title="Salir"
             aria-label="Salir"
             color="error"
-            onClick={onLogout}
+            onClick={logout}
           >
             <LogoutOutlined />
           </IconButton>

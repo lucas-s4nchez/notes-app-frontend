@@ -36,8 +36,9 @@ export const LoginPage: React.FC = () => {
         .min(6, "Minimo 6 caracteres")
         .required("Campo requerido"),
     }),
-    onSubmit: (values) => {
-      login({ ...values });
+    onSubmit: async (values) => {
+      const { data }: any = await login({ ...values });
+      console.log({ ...data });
     },
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);

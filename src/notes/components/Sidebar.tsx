@@ -19,10 +19,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   handleDrawerToggle,
   handleDrawerClose,
 }: SidebarProps) => {
-  const token = localStorage.getItem("token") ?? "";
-  const { data: notes, isLoading: isLoadingNotes } = useGetNotesQuery(
-    localStorage.getItem("token") ?? ""
-  );
+  // const token = localStorage.getItem("token") ?? "";
+  const { data: notes, isLoading: isLoadingNotes } = useGetNotesQuery();
   const container =
     window !== undefined ? () => window().document.body : undefined;
 

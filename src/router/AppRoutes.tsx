@@ -1,36 +1,14 @@
 import { CircularProgress, Grid } from "@mui/material";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { LoginPage, RegisterPage } from "../auth/pages";
 import { HomePage } from "../notes/pages";
 import { RootState } from "../store";
 import { useRefeshTokenQuery } from "../store/apiSlice";
-import { onLogin, onLogout } from "../store/userSlice";
 
 export const AppRoutes: React.FC = () => {
-  const { status } = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch();
-  const { data, isLoading } = useRefeshTokenQuery();
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    if (!token) {
-      dispatch(onLogout());
-    } else {
-      try {
-        if (data?.token) {
-          // Verificar si data tiene un valor para token
-          localStorage.setItem("token", data.token);
-          dispatch(onLogin({ username: data.username, uid: data.uid }));
-        }
-      } catch (error) {
-        localStorage.clear();
-        dispatch(onLogout());
-      }
-    }
-  }, [isLoading, token]);
-  useEffect(() => {}, [token, isLoading]);
+  const { status, token } = useSelector((state: RootState) => state.auth);
+  useRefeshTokenQuery();
 
   if (status === "checking") {
     return (

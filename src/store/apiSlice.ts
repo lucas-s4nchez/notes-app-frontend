@@ -1,3 +1,4 @@
+import { RootState } from "./index";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const API_BASE_URL = "http://localhost:3000/api/";
@@ -41,6 +42,15 @@ export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
+    prepareHeaders: (headers, { getState }) => {
+      // By default, if we have a token in the store, let's use that for authenticated requests
+      const token =
+        (getState() as RootState).auth.token || localStorage.getItem("token");
+      if (token) {
+        headers.set("x-token", `${token}`);
+      }
+      return headers;
+    },
   }),
   tagTypes: ["notes"],
 
@@ -67,21 +77,20 @@ export const api = createApi({
       }),
     }),
     refeshToken: builder.query<any, void>({
-      query: (uid) => ({
+      query: () => ({
         url: "/auth/renew",
         method: "GET",
-        headers: {
-          "x-token": token!,
-        },
+        // transformResponse: (response: any) => {
+        //   const { token, name, uid } = response.data;
+        //   localStorage.setItem("token", token);
+        //   return response;
+        // },
       }),
     }),
-    getNotes: builder.query<Note[], string>({
-      query: (token: string) => ({
+    getNotes: builder.query<Note[], void>({
+      query: () => ({
         url: "/notes",
         method: "GET",
-        headers: {
-          "x-token": token,
-        },
         refetchOnMountOrArgChange: true,
       }),
       transformResponse: (response: { ok: boolean; notes: Note[] }) =>
@@ -93,9 +102,6 @@ export const api = createApi({
       query: (note) => ({
         url: "/notes",
         method: "POST",
-        headers: {
-          "x-token": token!,
-        },
         body: { ...note },
       }),
       invalidatesTags: ["notes"],

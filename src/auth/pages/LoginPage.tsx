@@ -38,7 +38,6 @@ export const LoginPage: React.FC = () => {
     }),
     onSubmit: async (values) => {
       const { data }: any = await login({ ...values });
-      console.log({ ...data });
     },
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);

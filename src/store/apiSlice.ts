@@ -30,11 +30,11 @@ interface NoteBody {
     | {};
 }
 interface Note {
-  _id: string;
-  title: string;
-  content: string;
-  date: Date;
-  user: User;
+  _id?: string;
+  title?: string;
+  content?: string;
+  date?: number;
+  user?: User;
 }
 const token = localStorage.getItem("token");
 
@@ -80,11 +80,6 @@ export const api = createApi({
       query: () => ({
         url: "/auth/renew",
         method: "GET",
-        // transformResponse: (response: any) => {
-        //   const { token, name, uid } = response.data;
-        //   localStorage.setItem("token", token);
-        //   return response;
-        // },
       }),
     }),
     getNotes: builder.query<Note[], void>({
@@ -106,9 +101,9 @@ export const api = createApi({
       }),
       invalidatesTags: ["notes"],
     }),
-    updateNote: builder.mutation<void, Note & { id: string }>({
-      query: ({ id, ...note }) => ({
-        url: `/notes/${id}`,
+    updateNote: builder.mutation<void, Note>({
+      query: ({ ...note }) => ({
+        url: `/notes/${note._id}`,
         method: "PUT",
         body: note,
       }),

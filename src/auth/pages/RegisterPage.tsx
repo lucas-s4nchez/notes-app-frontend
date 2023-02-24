@@ -41,8 +41,8 @@ export const RegisterPage: React.FC = () => {
         .min(6, "Minimo 6 caracteres")
         .required("Campo requerido"),
     }),
-    onSubmit: (values) => {
-      register({ ...values });
+    onSubmit: async (values) => {
+      await register({ ...values });
     },
   });
   const [showPassword, setShowPassword] = useState(false);

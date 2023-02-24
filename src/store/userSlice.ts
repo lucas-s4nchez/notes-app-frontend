@@ -13,7 +13,7 @@ interface Note {
   _id?: string;
   title?: string;
   content?: string;
-  data?: Date;
+  date?: number;
   user?: User;
 }
 

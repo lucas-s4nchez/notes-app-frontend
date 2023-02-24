@@ -13,7 +13,6 @@ export const HomePage: React.FC = () => {
 
   const onAddNewNote = (): void => {
     const newNote = {
-      _id: "",
       title: "",
       content: "",
       date: new Date().getTime(),

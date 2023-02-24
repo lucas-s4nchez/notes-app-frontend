@@ -8,22 +8,20 @@ import {
 } from "@mui/icons-material";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { RootState } from "../../store";
-import { useAddNoteMutation } from "../../store/apiSlice";
+import {
+  useAddNoteMutation,
+  useUpdateNoteMutation,
+} from "../../store/apiSlice";
 import { useEffect, useState } from "react";
 
-const getInitialValues = (activeNote?: any) => ({
-  title: activeNote?.title ?? "",
-  content: activeNote?.content ?? "",
-});
-
-export const NoteView = () => {
+export const NoteView: React.FC = () => {
   const [addNote] = useAddNoteMutation();
+  const [updateNote] = useUpdateNoteMutation();
   const { activeNote, user } = useSelector((state: RootState) => state.auth);
   const [initialValues, setInitialValues] = useState({
-    title: activeNote?.title ?? "",
-    content: activeNote?.content ?? "",
+    ...activeNote,
   });
-  const dispatch = useDispatch();
+
   const { getFieldProps, handleSubmit, resetForm, errors, touched } = useFormik(
     {
       initialValues,
@@ -38,26 +36,35 @@ export const NoteView = () => {
           .required("Campo requerido"),
       }),
       onSubmit: (values) => {
-        addNote({
-          title: values?.title?.trim()!,
-          content: values?.content?.trim()!,
-          date: Date.now(),
-          user: user,
-        });
+        if (activeNote?._id) {
+          updateNote({
+            ...activeNote,
+            title: values?.title?.trim(),
+            content: values?.content?.trim(),
+            date: Date.now(),
+          });
+        } else {
+          addNote({
+            title: values?.title?.trim()!,
+            content: values?.content?.trim()!,
+            date: Date.now(),
+            user: user,
+          });
+        }
       },
     }
   );
-
   useEffect(() => {
-    resetForm();
-  }, [activeNote]);
-  // const formattedDate = useMemo(() => {
-  //   const newDate = new Date(date);
-  //   return new Intl.DateTimeFormat("es-ES", { dateStyle: "full" }).format(
-  //     newDate
-  //   );
-  // }, [date]);
+    if (activeNote !== null) {
+      resetForm({
+        values: { ...activeNote },
+      });
+    }
+  }, [activeNote, resetForm]);
 
+  if (!activeNote) {
+    return <h1>Cargando..</h1>;
+  }
   return (
     <Grid
       container
@@ -111,12 +118,6 @@ export const NoteView = () => {
           <Typography sx={{ fontSize: { xs: 10, md: 16 } }}>Guardar</Typography>
         </Button>
       </Box>
-      {/* <Grid container justifyContent="end" sx={{ mt: 2 }}>
-        <Button color="error" onClick={onDelete}>
-          Borrar <DeleteOutline />
-        </Button>
-      </Grid> */}
-      {/* <ImageGallery images={imageUrls} /> */}
     </Grid>
   );
 };

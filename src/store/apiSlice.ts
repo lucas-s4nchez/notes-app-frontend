@@ -30,11 +30,11 @@ interface NoteBody {
     | {};
 }
 interface Note {
-  _id?: string;
-  title?: string;
-  content?: string;
-  date?: number;
-  user?: User;
+  _id: string;
+  title: string;
+  content: string;
+  date: string;
+  user: User;
 }
 const token = localStorage.getItem("token");
 

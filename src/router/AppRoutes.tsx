@@ -2,7 +2,7 @@ import { CircularProgress, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { LoginPage, RegisterPage } from "../auth/pages";
-import { HomePage } from "../notes/pages";
+import { HomePage, NotePage } from "../notes/pages";
 import { RootState } from "../store";
 import { useRefeshTokenQuery } from "../store/apiSlice";
 
@@ -38,6 +38,7 @@ export const AppRoutes: React.FC = () => {
       ) : (
         <>
           <Route path="/" element={<HomePage />} />
+          <Route path="/notes/:id" element={<NotePage />} />
           <Route path="/*" element={<Navigate to={"/"} />} />
         </>
       )}

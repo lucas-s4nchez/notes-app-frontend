@@ -10,10 +10,10 @@ export interface SidebarProps {
   handleDrawerClose: () => void;
 }
 
-export interface SidebarItemProps {
+export interface CardItemProps {
   _id: string;
   title: string;
   content: string;
-  date: Date;
+  date: string;
   user: {};
 }

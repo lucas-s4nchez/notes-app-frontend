@@ -6,7 +6,7 @@ export const AppTheme: React.FC<ChildrenProps> = ({
   children,
 }: ChildrenProps) => {
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={darkTheme}>
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
       <CssBaseline />
       {children}

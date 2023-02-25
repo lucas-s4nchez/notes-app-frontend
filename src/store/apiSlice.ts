@@ -36,7 +36,6 @@ interface Note {
   date: string;
   user: User;
 }
-const token = localStorage.getItem("token");
 
 export const api = createApi({
   reducerPath: "api",
@@ -92,7 +91,16 @@ export const api = createApi({
         response.notes,
       providesTags: ["notes"],
     }),
-
+    getNoteById: builder.query<Note, string>({
+      query: (id) => ({
+        url: `/notes/${id}`,
+        method: "GET",
+        refetchOnMountOrArgChange: true,
+      }),
+      transformResponse: (response: { ok: boolean; note: Note }) =>
+        response.note,
+      providesTags: ["notes"],
+    }),
     addNote: builder.mutation<void, NoteBody>({
       query: (note) => ({
         url: "/notes",
@@ -124,6 +132,7 @@ export const {
   useRegisterMutation,
   useRefeshTokenQuery,
   useGetNotesQuery,
+  useGetNoteByIdQuery,
   useAddNoteMutation,
   useUpdateNoteMutation,
   useDeleteNoteMutation,

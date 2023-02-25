@@ -7,6 +7,8 @@ import { RootState } from "../../store";
 import { onSetActiveNote } from "../../store/userSlice";
 import { useGetNotesQuery } from "../../store/apiSlice";
 import { Card } from "../components/Card";
+import { onOpenModal } from "../../store/uiSlice";
+import { Modal } from "../components/Modal";
 
 export const HomePage: React.FC = () => {
   const dispatch = useDispatch();
@@ -20,6 +22,7 @@ export const HomePage: React.FC = () => {
       date: new Date().getTime(),
       user,
     };
+    dispatch(onOpenModal());
     dispatch(onSetActiveNote({ ...newNote }));
   };
   return (
@@ -54,6 +57,7 @@ export const HomePage: React.FC = () => {
       >
         <AddOutlinedIcon />
       </IconButton>
+      <Modal />
     </NotesLayout>
   );
 };

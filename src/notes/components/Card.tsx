@@ -45,7 +45,7 @@ export const Card: React.FC<CardItemProps> = ({
           sx={{ textDecoration: "none" }}
         >
           <Button size="small" variant="contained">
-            Editar
+            Ver
           </Button>
         </Link>
       </CardActions>

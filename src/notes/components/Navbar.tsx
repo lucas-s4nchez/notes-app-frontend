@@ -1,8 +1,16 @@
-import { LogoutOutlined } from "@mui/icons-material";
-import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
 import { WrapperBox } from "../../components/WrapperBox";
 import { onLogout } from "../../store/userSlice";
+import {
+  AppBar,
+  Grid,
+  IconButton,
+  Toolbar,
+  Typography,
+  Link,
+} from "@mui/material";
+import { LogoutOutlined } from "@mui/icons-material";
 
 export const Navbar: React.FC = () => {
   const dispatch = useDispatch();
@@ -22,13 +30,14 @@ export const Navbar: React.FC = () => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              color="text.primary"
-            >
-              NotesApp
+            <Typography variant="h6" noWrap component="div">
+              <Link
+                component={RouterLink}
+                to="/"
+                sx={{ textDecoration: "none", color: "text.primary" }}
+              >
+                NotesApp
+              </Link>
             </Typography>
             <IconButton
               title="Salir"

@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { CardItemProps } from "../../interfaces";
+import { formattedDate } from "../../helpers/formattedDate";
 
 const ContentStyled = styled(Typography)(({ theme }) => ({
   display: "-webkit-box",
@@ -34,7 +35,9 @@ export const Card: React.FC<CardItemProps> = ({
   return (
     <CardMUI sx={{ width: "100%" }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14, color: "GrayText" }}>{date}</Typography>
+        <Typography sx={{ fontSize: 14, color: "GrayText" }}>
+          {formattedDate(date)}
+        </Typography>
         <TitleStyled>{title}</TitleStyled>
         <ContentStyled>{content}</ContentStyled>
       </CardContent>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   useDeleteNoteMutation,
@@ -22,6 +22,7 @@ import {
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { formattedDate } from "../../helpers/formattedDate";
 
 interface CustomFetchBaseQueryError {
   status: number;
@@ -87,14 +88,6 @@ export const NotePage: React.FC = () => {
     }
   }, [note, values]);
 
-  const formattedDate = useMemo(() => {
-    if (!note) return;
-    const newDate = new Date(note.date);
-    return new Intl.DateTimeFormat("es-ES", { dateStyle: "full" }).format(
-      newDate
-    );
-  }, [note]);
-
   const onDeleteNote = async () => {
     await deleteNote(id);
     navigate("/", { replace: true });
@@ -139,7 +132,7 @@ export const NotePage: React.FC = () => {
                 textAlign: "end",
               }}
             >
-              {formattedDate}
+              {formattedDate(note?.date)}
             </Typography>
           </Grid>
           <Grid container component="form" onSubmit={handleSubmit} gap={2}>
@@ -152,7 +145,6 @@ export const NotePage: React.FC = () => {
                 variant="outlined"
                 {...getFieldProps("title")}
                 error={!!errors.title && touched.title}
-                helperText="***El título debe tener al menos 3 caracteres***"
                 FormHelperTextProps={{
                   style: { color: "InfoText" },
                 }}
@@ -181,7 +173,6 @@ export const NotePage: React.FC = () => {
                 minRows={5}
                 {...getFieldProps("content")}
                 error={!!errors.content && touched.content}
-                helperText="***La descripción debe tener al menos 5 caracteres***"
                 FormHelperTextProps={{
                   style: { color: "InfoText" },
                 }}

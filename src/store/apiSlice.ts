@@ -29,6 +29,13 @@ interface NoteBody {
       }
     | {};
 }
+interface UpdateNote {
+  _id: string;
+  title: string;
+  content: string;
+  date: number;
+  user: User;
+}
 interface Note {
   _id: string;
   title: string;
@@ -109,7 +116,7 @@ export const api = createApi({
       }),
       invalidatesTags: ["notes"],
     }),
-    updateNote: builder.mutation<void, Note>({
+    updateNote: builder.mutation<void, UpdateNote>({
       query: ({ ...note }) => ({
         url: `/notes/${note._id}`,
         method: "PUT",

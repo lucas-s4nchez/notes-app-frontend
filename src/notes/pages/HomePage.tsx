@@ -15,16 +15,6 @@ export const HomePage: React.FC = () => {
   const { user, activeNote } = useSelector((state: RootState) => state.auth);
   const { data: notes, isLoading: isLoadingNotes } = useGetNotesQuery();
 
-  const onAddNewNote = (): void => {
-    const newNote = {
-      title: "",
-      content: "",
-      date: new Date().getTime(),
-      user,
-    };
-    dispatch(onOpenModal());
-    dispatch(onSetActiveNote({ ...newNote }));
-  };
   return (
     <NotesLayout>
       <WrapperBox>
@@ -53,7 +43,7 @@ export const HomePage: React.FC = () => {
           bottom: 50,
           ":hover": { backgroundColor: "primary.main", opacity: 0.9 },
         }}
-        onClick={onAddNewNote}
+        onClick={() => dispatch(onOpenModal())}
       >
         <AddOutlinedIcon />
       </IconButton>

@@ -22,42 +22,35 @@ export const Modal = () => {
   const { isModalOpen } = useSelector((state) => (state as RootState).ui);
   const { user } = useSelector((state) => (state as RootState).auth);
   const [addNote] = useAddNoteMutation();
-  const {
-    getFieldProps,
-    handleSubmit,
-    handleReset,
-    errors,
-    touched,
-    values,
-    isValid,
-  } = useFormik({
-    initialValues: {
-      title: "",
-      content: "",
-    },
-    validationSchema: Yup.object({
-      title: Yup.string()
-        .required("El título es obligatorio")
-        .min(3, "El título debe tener al menos 3 caracteres"),
-      content: Yup.string()
-        .required("La descripción es obligatoria")
-        .min(5, "La descripción debe tener al menos 5 caracteres"),
-    }),
-    onSubmit: async (values, { resetForm }) => {
-      const newNote = {
-        title: values.title,
-        content: values.content,
-        date: Date.now(),
-        user: user,
-      };
-      await addNote(newNote);
-      resetForm();
-      dispatch(onCloseModal());
-    },
-    onReset: () => {
-      dispatch(onCloseModal());
-    },
-  });
+  const { getFieldProps, handleSubmit, handleReset, errors, touched } =
+    useFormik({
+      initialValues: {
+        title: "",
+        content: "",
+      },
+      validationSchema: Yup.object({
+        title: Yup.string()
+          .required("El título es obligatorio")
+          .min(3, "El título debe tener al menos 3 caracteres"),
+        content: Yup.string()
+          .required("La descripción es obligatoria")
+          .min(5, "La descripción debe tener al menos 5 caracteres"),
+      }),
+      onSubmit: async (values, { resetForm }) => {
+        const newNote = {
+          title: values.title,
+          content: values.content,
+          date: Date.now(),
+          user: user,
+        };
+        await addNote(newNote);
+        resetForm();
+        dispatch(onCloseModal());
+      },
+      onReset: () => {
+        dispatch(onCloseModal());
+      },
+    });
   return (
     <Dialog open={isModalOpen} fullWidth>
       <DialogTitle>Crea una nueva nota</DialogTitle>

@@ -1,10 +1,10 @@
-import { CircularProgress, Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { useRefeshTokenQuery } from "../store";
+import { RootState } from "../store/store";
 import { LoginPage, RegisterPage } from "../auth/pages";
 import { HomePage, NotePage } from "../notes/pages";
-import { RootState } from "../store";
-import { useRefeshTokenQuery } from "../store/apiSlice";
+import { CircularProgress, Grid } from "@mui/material";
 
 export const AppRoutes: React.FC = () => {
   const { status, token } = useSelector((state: RootState) => state.auth);

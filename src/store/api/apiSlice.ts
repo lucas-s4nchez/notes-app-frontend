@@ -1,48 +1,15 @@
-import { RootState } from "./index";
+import { RootState } from "../store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  IAddNoteBody,
+  ILoginCredentials,
+  INote,
+  IRegisterCredentials,
+  IUpdateNoteBody,
+  IUser,
+} from "../../interfaces";
 
 const API_BASE_URL = "http://localhost:3000/api/";
-
-interface User {
-  ok?: boolean;
-  uid?: string;
-  username?: string;
-  token: string;
-}
-interface LoginCredentials {
-  email: string;
-  password: string;
-}
-interface RegisterCredentials {
-  email: string;
-  password: string;
-  username: string;
-}
-interface NoteBody {
-  title: string;
-  content: string;
-  date: number;
-  user:
-    | {
-        username: string;
-        uid: string;
-      }
-    | {};
-}
-interface UpdateNote {
-  _id: string;
-  title: string;
-  content: string;
-  date: number;
-  user: User;
-}
-interface Note {
-  _id: string;
-  title: string;
-  content: string;
-  date: string;
-  user: User;
-}
 
 export const api = createApi({
   reducerPath: "api",
@@ -61,7 +28,7 @@ export const api = createApi({
   tagTypes: ["notes"],
 
   endpoints: (builder) => ({
-    login: builder.mutation<User, LoginCredentials>({
+    login: builder.mutation<IUser, ILoginCredentials>({
       query: ({ email, password }) => ({
         url: "/auth/login",
         method: "POST",
@@ -71,7 +38,7 @@ export const api = createApi({
         },
       }),
     }),
-    register: builder.mutation<User, RegisterCredentials>({
+    register: builder.mutation<IUser, IRegisterCredentials>({
       query: ({ email, password, username }) => ({
         url: "/auth/register",
         method: "POST",
@@ -88,27 +55,26 @@ export const api = createApi({
         method: "GET",
       }),
     }),
-    getNotes: builder.query<Note[], void>({
+    getNotes: builder.query<INote[], void>({
       query: () => ({
         url: "/notes",
         method: "GET",
         refetchOnMountOrArgChange: true,
       }),
-      transformResponse: (response: { ok: boolean; notes: Note[] }) =>
+      transformResponse: (response: { ok: boolean; notes: INote[] }) =>
         response.notes,
       providesTags: ["notes"],
     }),
-    getNoteById: builder.query<Note, string>({
+    getNoteById: builder.query<INote, string>({
       query: (id) => ({
         url: `/notes/${id}`,
         method: "GET",
         refetchOnMountOrArgChange: true,
       }),
-      transformResponse: (response: { ok: boolean; note: Note }) =>
+      transformResponse: (response: { ok: boolean; note: INote }) =>
         response.note,
-      providesTags: ["notes"],
     }),
-    addNote: builder.mutation<void, NoteBody>({
+    addNote: builder.mutation<void, IAddNoteBody>({
       query: (note) => ({
         url: "/notes",
         method: "POST",
@@ -116,7 +82,7 @@ export const api = createApi({
       }),
       invalidatesTags: ["notes"],
     }),
-    updateNote: builder.mutation<void, UpdateNote>({
+    updateNote: builder.mutation<void, IUpdateNoteBody>({
       query: ({ ...note }) => ({
         url: `/notes/${note._id}`,
         method: "PUT",

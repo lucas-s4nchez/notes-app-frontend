@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useLoginMutation } from "../../store";
+import { AuthLayout } from "../layout";
 import {
   Alert,
   Button,
@@ -13,11 +17,6 @@ import {
 import EmailIcon from "@mui/icons-material/Email";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { AuthLayout } from "../layout";
-import { useLoginMutation } from "../../store/apiSlice";
 
 export const LoginPage: React.FC = () => {
   const [login, { isError, error, isLoading }] = useLoginMutation();

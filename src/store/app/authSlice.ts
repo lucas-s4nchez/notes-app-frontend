@@ -1,37 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { api } from "./apiSlice";
-
-interface User {
-  ok?: boolean;
-  uid?: string;
-  username?: string;
-  token: string;
-}
-
-interface Note {
-  _id?: string;
-  title?: string;
-  content?: string;
-  date?: number;
-  user?: User;
-}
-
-export interface IUserInitialState {
-  status: "checking" | "authenticated" | "not-authenticated";
-  user: { username: string; uid: string } | {};
-  token: string | null;
-  activeNote: Note | null;
-}
+import { api } from "../";
+import { IUserInitialState } from "../../interfaces";
 
 const initialState: IUserInitialState = {
   status: "checking",
   user: {},
   token: null,
-  activeNote: null,
 };
 
-export const userSlice = createSlice({
+export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
@@ -39,7 +17,6 @@ export const userSlice = createSlice({
       state.status = "checking";
       state.user = {};
       state.token = null;
-      state.activeNote = null;
     },
     onLogin: (
       state,
@@ -56,13 +33,6 @@ export const userSlice = createSlice({
       state.status = "not-authenticated";
       state.user = {};
       state.token = null;
-      state.activeNote = null;
-    },
-    onSetActiveNote: (state, { payload }) => {
-      state.activeNote = payload;
-    },
-    onClearActiveNote: (state) => {
-      state.activeNote = null;
     },
   },
   extraReducers: (builder) => {
@@ -71,7 +41,6 @@ export const userSlice = createSlice({
         state.status = "checking";
         state.user = {};
         state.token = null;
-        state.activeNote = null;
       })
       .addMatcher(api.endpoints.login.matchFulfilled, (state, { payload }) => {
         const { uid, username, token } = payload;
@@ -85,13 +54,11 @@ export const userSlice = createSlice({
         state.status = "not-authenticated";
         state.user = {};
         state.token = null;
-        state.activeNote = null;
       })
       .addMatcher(api.endpoints.register.matchPending, (state) => {
         state.status = "checking";
         state.user = {};
         state.token = null;
-        state.activeNote = null;
       })
       .addMatcher(
         api.endpoints.register.matchFulfilled,
@@ -108,13 +75,11 @@ export const userSlice = createSlice({
         state.status = "not-authenticated";
         state.user = {};
         state.token = null;
-        state.activeNote = null;
       })
       .addMatcher(api.endpoints.refeshToken.matchPending, (state) => {
         state.status = "checking";
         state.user = {};
         state.token = null;
-        state.activeNote = null;
       })
       .addMatcher(
         api.endpoints.refeshToken.matchFulfilled,
@@ -131,13 +96,9 @@ export const userSlice = createSlice({
         state.status = "not-authenticated";
         state.user = {};
         state.token = null;
-        state.activeNote = null;
       });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { onChecking, onLogin, onLogout, onSetActiveNote } =
-  userSlice.actions;
-
-export default userSlice.reducer;
+export const { onChecking, onLogin, onLogout } = authSlice.actions;

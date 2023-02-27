@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import {
+  api,
   useDeleteNoteMutation,
   useGetNoteByIdQuery,
   useUpdateNoteMutation,
-} from "../../store/apiSlice";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { WrapperBox } from "../../components/WrapperBox";
+} from "../../store";
 import { NotesLayout } from "../layout/NotesLayout";
-
+import { WrapperBox } from "../../components";
+import { formattedDate } from "../../helpers/formattedDate";
 import {
   Alert,
   Box,
@@ -22,13 +23,7 @@ import {
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { formattedDate } from "../../helpers/formattedDate";
-
-interface CustomFetchBaseQueryError {
-  status: number;
-  data?: { ok: boolean; msg: string };
-  error?: string;
-}
+import { ICustomFetchBaseQueryError } from "../../interfaces";
 
 export const NotePage: React.FC = () => {
   const params = useParams();
@@ -98,7 +93,7 @@ export const NotePage: React.FC = () => {
   }
 
   if (isError) {
-    const { data, status } = error as CustomFetchBaseQueryError;
+    const { data, status } = error as ICustomFetchBaseQueryError;
     if (data) {
       const { ok, msg: errorMessage } = data;
       return (

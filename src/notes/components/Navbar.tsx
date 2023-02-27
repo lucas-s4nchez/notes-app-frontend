@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import { WrapperBox } from "../../components/WrapperBox";
-import { onLogout } from "../../store/userSlice";
-
+import { onChangeTheme, onLogout } from "../../store";
+import { RootState } from "../../store/store";
+import { WrapperBox, ThemeSwitch } from "../../components";
 import {
   AppBar,
   Grid,
@@ -14,9 +14,6 @@ import {
   Box,
 } from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
-import { RootState } from "../../store";
-import { onChangeTheme } from "../../store/uiSlice";
-import { ThemeSwitch } from "../../components/ThemeSwitch";
 
 export const Navbar: React.FC = () => {
   const dispatch = useDispatch();
@@ -24,7 +21,6 @@ export const Navbar: React.FC = () => {
 
   const logout = () => {
     dispatch(onLogout());
-    localStorage.clear();
   };
 
   return (

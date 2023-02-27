@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { onCloseModal, useAddNoteMutation } from "../../store";
+import { RootState } from "../../store/store";
 
 import {
   Alert,
@@ -14,10 +15,8 @@ import {
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
-import { onCloseModal } from "../../store/uiSlice";
-import { useAddNoteMutation } from "../../store/apiSlice";
 
-export const Modal = () => {
+export const Modal: React.FC = () => {
   const dispatch = useDispatch();
   const { isModalOpen } = useSelector((state) => (state as RootState).ui);
   const { user } = useSelector((state) => (state as RootState).auth);

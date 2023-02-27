@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { AppRoutes } from "./router/AppRoutes";
 import { AppTheme } from "./theme";
 

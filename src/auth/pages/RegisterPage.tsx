@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useRegisterMutation } from "../../store";
+import { AuthLayout } from "../layout";
 import {
   Alert,
   Button,
@@ -16,8 +18,6 @@ import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { AuthLayout } from "../layout";
-import { useRegisterMutation } from "../../store/apiSlice";
 
 export const RegisterPage: React.FC = () => {
   const [register, { isError, error, isLoading }] = useRegisterMutation();

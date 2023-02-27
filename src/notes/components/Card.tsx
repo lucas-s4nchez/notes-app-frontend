@@ -1,4 +1,7 @@
+import { Link as RouterLink } from "react-router-dom";
 import { styled } from "@mui/system";
+import { ICardItemProps } from "../../interfaces";
+import { formattedDate } from "../../helpers/formattedDate";
 import {
   Button,
   CardActions,
@@ -7,9 +10,6 @@ import {
   Link,
   Card as CardMUI,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
-import { CardItemProps } from "../../interfaces";
-import { formattedDate } from "../../helpers/formattedDate";
 
 const ContentStyled = styled(Typography)(({ theme }) => ({
   display: "-webkit-box",
@@ -25,13 +25,13 @@ const TitleStyled = styled(Typography)(({ theme }) => ({
   fontSize: 25,
 }));
 
-export const Card: React.FC<CardItemProps> = ({
+export const Card: React.FC<ICardItemProps> = ({
   _id,
   title,
   content,
   date,
   user,
-}: CardItemProps) => {
+}: ICardItemProps) => {
   return (
     <CardMUI sx={{ width: "100%" }}>
       <CardContent>

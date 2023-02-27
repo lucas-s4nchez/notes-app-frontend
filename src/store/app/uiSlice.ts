@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { IUiInitialState } from "../../interfaces";
 
-const initialState = {
+const initialState: IUiInitialState = {
   isModalOpen: false,
   isDarkTheme: false,
 };
 
-const uiSlice = createSlice({
+export const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
@@ -22,5 +23,3 @@ const uiSlice = createSlice({
 });
 
 export const { onOpenModal, onCloseModal, onChangeTheme } = uiSlice.actions;
-
-export default uiSlice.reducer;

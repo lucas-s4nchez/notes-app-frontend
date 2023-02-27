@@ -1,15 +1,16 @@
-import { Box, Toolbar } from "@mui/material";
-import { ChildrenProps } from "../../interfaces";
+import { WrapperBox } from "../../components";
 import { Navbar } from "../components";
-export const NotesLayout: React.FC<ChildrenProps> = ({
+import { IChildrenProps } from "../../interfaces";
+import { Box, Toolbar } from "@mui/material";
+export const NotesLayout: React.FC<IChildrenProps> = ({
   children,
-}: ChildrenProps) => {
+}: IChildrenProps) => {
   return (
     <Box>
       <Navbar />
       <Box component="main">
         <Toolbar />
-        {children}
+        <WrapperBox>{children}</WrapperBox>
       </Box>
     </Box>
   );

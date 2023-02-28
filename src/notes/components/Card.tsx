@@ -33,7 +33,7 @@ export const Card: React.FC<ICardItemProps> = ({
   user,
 }: ICardItemProps) => {
   return (
-    <CardMUI sx={{ width: "100%" }}>
+    <CardMUI sx={{ width: "100%", maxWidth: { sm: "288px" } }}>
       <CardContent>
         <Typography sx={{ fontSize: 14, color: "GrayText" }}>
           {formattedDate(date)}

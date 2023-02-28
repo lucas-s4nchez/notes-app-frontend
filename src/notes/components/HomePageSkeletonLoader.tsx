@@ -13,10 +13,21 @@ export const HomePageSkeletonLoader: React.FC = () => {
             gap: 2,
           }}
         >
-          <Skeleton variant="rectangular" width={"100%"} height={160} />
-          <Skeleton variant="rectangular" width={"100%"} height={160} />
-          <Skeleton variant="rectangular" width={"100%"} height={160} />
-          <Skeleton variant="rectangular" width={"100%"} height={160} />
+          <Skeleton
+            variant="rectangular"
+            height={160}
+            sx={{ width: "100%", maxWidth: { sm: "288px" } }}
+          />
+          <Skeleton
+            variant="rectangular"
+            height={160}
+            sx={{ width: "100%", maxWidth: { sm: "288px" } }}
+          />
+          <Skeleton
+            variant="rectangular"
+            height={160}
+            sx={{ width: "100%", maxWidth: { sm: "288px" } }}
+          />
         </Box>
       </NotesLayout>
     </>

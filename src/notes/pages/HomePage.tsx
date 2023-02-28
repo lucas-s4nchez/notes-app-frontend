@@ -13,7 +13,11 @@ export const HomePage: React.FC = () => {
     isLoading: isLoadingNotes,
     isError,
     error,
-  } = useGetNotesQuery();
+  } = useGetNotesQuery(undefined, {
+    refetchOnReconnect: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+  });
 
   if (isLoadingNotes) {
     return <HomePageSkeletonLoader />;

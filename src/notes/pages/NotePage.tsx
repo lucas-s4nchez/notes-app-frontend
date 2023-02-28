@@ -35,7 +35,12 @@ export const NotePage: React.FC = () => {
     isLoading: isLoadingNote,
     isError,
     error,
-  } = useGetNoteByIdQuery(id);
+    refetch,
+  } = useGetNoteByIdQuery(id, {
+    refetchOnReconnect: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+  });
   const [updateNote] = useUpdateNoteMutation();
   const [deleteNote] = useDeleteNoteMutation();
   const [isNoteModified, setIsNoteModified] = useState(false);
@@ -57,7 +62,7 @@ export const NotePage: React.FC = () => {
           .trim(),
       }),
       onSubmit: async (values, { resetForm }) => {
-        if (!!note) {
+        if (note) {
           await updateNote({
             _id: note._id,
             title: values.title.trim(),
@@ -65,14 +70,11 @@ export const NotePage: React.FC = () => {
             date: Date.now(),
             user: note.user,
           });
+          refetch();
         }
       },
     });
-  useEffect(() => {
-    if (!!note) {
-      resetForm({ values: { title: note.title, content: note.content } });
-    }
-  }, [note]);
+
   useEffect(() => {
     if (note) {
       const { title: initialTitle, content: initialContent } = note;
@@ -83,6 +85,11 @@ export const NotePage: React.FC = () => {
       );
     }
   }, [note, values]);
+  useEffect(() => {
+    if (!!note) {
+      resetForm({ values: { title: note.title, content: note.content } });
+    }
+  }, [note]);
 
   const onDeleteNote = async () => {
     await deleteNote(id);

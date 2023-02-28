@@ -59,8 +59,12 @@ export const notesApi = createApi({
         method: "GET",
         refetchOnMountOrArgChange: true,
       }),
-      transformResponse: (response: { ok: boolean; notes: INote[] }) =>
-        response.notes,
+      transformResponse: (response: { ok: boolean; notes: INote[] }) => {
+        const sortedNotes = response.notes.sort((a, b) =>
+          b.date.localeCompare(a.date)
+        );
+        return sortedNotes;
+      },
       providesTags: ["notes"],
     }),
     getNoteById: builder.query<INote, string>({

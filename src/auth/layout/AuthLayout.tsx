@@ -1,11 +1,11 @@
 import { Box, Typography, Paper } from "@mui/material";
 import { WrapperBox } from "../../components/WrapperBox";
-import { AuthLayoutProps } from "../../interfaces";
+import { IAuthLayoutProps } from "../../interfaces";
 
-export const AuthLayout: React.FC<AuthLayoutProps> = ({
+export const AuthLayout: React.FC<IAuthLayoutProps> = ({
   children,
   title,
-}: AuthLayoutProps) => {
+}: IAuthLayoutProps) => {
   return (
     <Box
       sx={{

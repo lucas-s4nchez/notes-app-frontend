@@ -7,7 +7,7 @@ import { HomePage, NotePage } from "../notes/pages";
 import { CircularProgress, Grid } from "@mui/material";
 
 export const AppRoutes: React.FC = () => {
-  const { status, token } = useSelector((state: RootState) => state.auth);
+  const { status } = useSelector((state: RootState) => state.auth);
   useRefeshTokenQuery();
 
   if (status === "checking") {

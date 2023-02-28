@@ -11,7 +11,7 @@ import {
 
 const API_BASE_URL = "http://localhost:3000/api/";
 
-export const api = createApi({
+export const notesApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
@@ -109,4 +109,4 @@ export const {
   useAddNoteMutation,
   useUpdateNoteMutation,
   useDeleteNoteMutation,
-} = api;
+} = notesApi;

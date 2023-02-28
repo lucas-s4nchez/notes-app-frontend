@@ -56,18 +56,6 @@ export interface IAuthLayoutProps {
   title: string;
 }
 
-export interface INavbarProps {
-  drawerWidth: number;
-  handleDrawerToggle: () => void;
-}
-export interface ISidebarProps {
-  drawerWidth: number;
-  window?: () => Window;
-  mobileOpen: boolean;
-  handleDrawerToggle: () => void;
-  handleDrawerClose: () => void;
-}
-
 export interface ICardItemProps {
   _id: string;
   title: string;
@@ -75,11 +63,11 @@ export interface ICardItemProps {
   date: string;
   user: {};
 }
-
-//! Otras
 export interface IChildrenProps {
   children: React.ReactNode;
 }
+
+//! Otras
 export interface ICustomFetchBaseQueryError {
   status: number;
   data?: { ok: boolean; msg: string };

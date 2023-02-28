@@ -8,8 +8,10 @@ export const AppTheme: React.FC<IChildrenProps> = ({
   children,
 }: IChildrenProps) => {
   const { isDarkTheme } = useSelector((state) => (state as RootState).ui);
+  const themeMode =
+    JSON.parse(localStorage.getItem("darkTheme")!) || isDarkTheme;
   return (
-    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+    <ThemeProvider theme={themeMode ? darkTheme : lightTheme}>
       <CssBaseline />
       {children}
     </ThemeProvider>

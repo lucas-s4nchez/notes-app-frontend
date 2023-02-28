@@ -1,13 +1,36 @@
 import { useDispatch } from "react-redux";
 import { onOpenModal, useGetNotesQuery } from "../../store";
 import { NotesLayout } from "../layout/NotesLayout";
-import { Card, Modal } from "../components";
+import { Card, Modal, HomePageSkeletonLoader } from "../components";
 import { Box, IconButton } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import { ICustomFetchBaseQueryError } from "../../interfaces";
 
 export const HomePage: React.FC = () => {
   const dispatch = useDispatch();
-  const { data: notes, isLoading: isLoadingNotes } = useGetNotesQuery();
+  const {
+    data: notes,
+    isLoading: isLoadingNotes,
+    isError,
+    error,
+  } = useGetNotesQuery();
+
+  if (isLoadingNotes) {
+    return <HomePageSkeletonLoader />;
+  }
+
+  if (isError) {
+    const { data, status } = error as ICustomFetchBaseQueryError;
+    if (data) {
+      const { ok, msg: errorMessage } = data;
+      return (
+        <div>
+          <div>Ocurrió un error:</div>
+          <div>{`${errorMessage} (${status})`}</div>
+        </div>
+      );
+    }
+  }
 
   return (
     <NotesLayout>

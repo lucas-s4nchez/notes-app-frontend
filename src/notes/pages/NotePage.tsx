@@ -16,6 +16,7 @@ import {
   Button,
   Grid,
   IconButton,
+  Skeleton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -23,6 +24,7 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ICustomFetchBaseQueryError } from "../../interfaces";
+import { NotePageSkeletonLoader } from "../components";
 
 export const NotePage: React.FC = () => {
   const params = useParams();
@@ -88,7 +90,7 @@ export const NotePage: React.FC = () => {
   };
 
   if (isLoadingNote) {
-    return <p>...cargando</p>;
+    return <NotePageSkeletonLoader />;
   }
 
   if (isError) {

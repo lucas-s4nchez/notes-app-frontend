@@ -29,7 +29,7 @@ export const authSlice = createSlice({
       state.token = token;
     },
     onLogout: (state) => {
-      localStorage.clear();
+      localStorage.removeItem("token");
       state.status = "not-authenticated";
       state.user = {};
       state.token = null;
@@ -53,7 +53,7 @@ export const authSlice = createSlice({
         }
       )
       .addMatcher(notesApi.endpoints.login.matchRejected, (state) => {
-        localStorage.clear();
+        localStorage.removeItem("token");
         state.status = "not-authenticated";
         state.user = {};
         state.token = null;
@@ -74,7 +74,7 @@ export const authSlice = createSlice({
         }
       )
       .addMatcher(notesApi.endpoints.register.matchRejected, (state) => {
-        localStorage.clear();
+        localStorage.removeItem("token");
         state.status = "not-authenticated";
         state.user = {};
         state.token = null;
@@ -95,7 +95,7 @@ export const authSlice = createSlice({
         }
       )
       .addMatcher(notesApi.endpoints.refeshToken.matchRejected, (state) => {
-        localStorage.clear();
+        localStorage.removeItem("token");
         state.status = "not-authenticated";
         state.user = {};
         state.token = null;

@@ -4,7 +4,7 @@ import { IUiInitialState } from "../../interfaces";
 const initialState: IUiInitialState = {
   isVisiblePassword: false,
   isModalOpen: false,
-  isDarkTheme: false,
+  isDarkTheme: JSON.parse(localStorage.getItem("darkTheme")!) || false,
   errorMessage: null,
 };
 
@@ -23,6 +23,7 @@ export const uiSlice = createSlice({
     },
     onChangeTheme: (state) => {
       state.isDarkTheme = !state.isDarkTheme;
+      localStorage.setItem("darkTheme", state.isDarkTheme ? "true" : "false");
     },
     hasError: (state, { payload }) => {
       state.errorMessage = payload;

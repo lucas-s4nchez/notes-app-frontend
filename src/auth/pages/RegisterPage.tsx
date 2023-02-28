@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useRegisterMutation } from "../../store";
+import {
+  hasError,
+  onChangePasswordVisibility,
+  onClearError,
+  useRegisterMutation,
+} from "../../store";
 import { AuthLayout } from "../layout";
 import {
   Alert,
@@ -18,10 +23,16 @@ import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { MessageAlert } from "../components";
 
 export const RegisterPage: React.FC = () => {
-  const [register, { isError, error, isLoading }] = useRegisterMutation();
-  const registerError: any = error;
+  const dispatch = useDispatch();
+  const { isVisiblePassword, errorMessage } = useSelector(
+    (state) => (state as RootState).ui
+  );
+  const [register, { isLoading }] = useRegisterMutation();
 
   const { getFieldProps, handleSubmit, errors, touched } = useFormik({
     initialValues: {
@@ -30,21 +41,39 @@ export const RegisterPage: React.FC = () => {
       password: "",
     },
     validationSchema: Yup.object({
-      username: Yup.string()
-        .trim()
-        .required("Campo requerido")
-        .min(3, "Minimo 3 caracteres"),
+      username: Yup.string().trim().required("El nombre es obligatorio"),
       email: Yup.string()
-        .email("Correo electronico invalido")
-        .required("Campo requerido"),
+        .required("El email es obligatorio")
+        .email("Email no válido"),
       password: Yup.string()
-        .min(6, "Minimo 6 caracteres")
-        .required("Campo requerido"),
+        .required("La contraseña es obligatoria")
+        .min(6, "La contraseña debe tener al menos 6 caracteres"),
     }),
     onSubmit: async (values) => {
-      await register({ ...values });
+      const { error }: any = await register({ ...values });
+      if (error) {
+        const {
+          data: {
+            errors: { email, password },
+          },
+        } = error;
+        if (email) {
+          dispatch(hasError(email.msg));
+        }
+        if (password) {
+          dispatch(hasError(password.msg));
+        }
+        setTimeout(() => {
+          dispatch(onClearError());
+        }, 3000);
+      }
     },
   });
+
+  useEffect(() => {
+    dispatch(onClearError());
+  }, []);
+
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -76,11 +105,6 @@ export const RegisterPage: React.FC = () => {
                 },
               }}
             />
-            {isError && !!registerError?.data.errors?.username?.msg && (
-              <Alert variant="filled" severity="error" sx={{ marginBlock: 1 }}>
-                {registerError?.data?.errors?.username?.msg}
-              </Alert>
-            )}
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -105,16 +129,11 @@ export const RegisterPage: React.FC = () => {
                 },
               }}
             />
-            {isError && !!registerError?.data.errors?.email?.msg && (
-              <Alert variant="filled" severity="error" sx={{ marginBlock: 1 }}>
-                {registerError?.data?.errors?.email?.msg}
-              </Alert>
-            )}
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
               label="Contraseña"
-              type={showPassword ? "text" : "password"}
+              type={isVisiblePassword ? "text" : "password"}
               placeholder="Contraseña"
               fullWidth
               autoComplete="password"
@@ -123,10 +142,10 @@ export const RegisterPage: React.FC = () => {
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
+                      onClick={() => dispatch(onChangePasswordVisibility())}
                       edge="end"
                     >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                      {isVisiblePassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -140,11 +159,6 @@ export const RegisterPage: React.FC = () => {
                 },
               }}
             />
-            {isError && !!registerError?.data.errors?.password?.msg && (
-              <Alert variant="filled" severity="error" sx={{ marginBlock: 1 }}>
-                {registerError?.data?.errors?.password?.msg}
-              </Alert>
-            )}
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12}>
@@ -159,6 +173,7 @@ export const RegisterPage: React.FC = () => {
                 <Typography>Crear cuenta</Typography>
               </Button>
             </Grid>
+            {errorMessage && <MessageAlert message={errorMessage} />}
           </Grid>
           <Grid container direction="row" justifyContent="end">
             <Typography sx={{ mr: 1, fontSize: 14 }}>

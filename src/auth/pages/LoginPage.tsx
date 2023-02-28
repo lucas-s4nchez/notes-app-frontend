@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useLoginMutation } from "../../store";
+import {
+  hasError,
+  onChangePasswordVisibility,
+  onClearError,
+  useLoginMutation,
+} from "../../store";
 import { AuthLayout } from "../layout";
 import {
-  Alert,
   Button,
   Grid,
   IconButton,
@@ -17,10 +21,16 @@ import {
 import EmailIcon from "@mui/icons-material/Email";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { MessageAlert } from "../components";
 
 export const LoginPage: React.FC = () => {
-  const [login, { isError, error, isLoading }] = useLoginMutation();
-  const loginErrors: any = error;
+  const dispatch = useDispatch();
+  const { isVisiblePassword, errorMessage } = useSelector(
+    (state) => (state as RootState).ui
+  );
+  const [login, { isLoading }] = useLoginMutation();
 
   const { getFieldProps, handleSubmit, errors, touched } = useFormik({
     initialValues: {
@@ -29,16 +39,36 @@ export const LoginPage: React.FC = () => {
     },
     validationSchema: Yup.object({
       email: Yup.string()
-        .email("Correo electronico invalido")
-        .required("Campo requerido"),
+        .required("El email es obligatorio")
+        .email("Email no válido"),
       password: Yup.string()
-        .min(6, "Minimo 6 caracteres")
-        .required("Campo requerido"),
+        .required("La contraseña es obligatoria")
+        .min(6, "La contraseña debe tener al menos 6 caracteres"),
     }),
     onSubmit: async (values) => {
-      const { data }: any = await login({ ...values });
+      const { error }: any = await login({ ...values });
+      if (error) {
+        const {
+          data: {
+            errors: { email, password },
+          },
+        } = error;
+        if (email) {
+          dispatch(hasError(email.msg));
+        }
+        if (password) {
+          dispatch(hasError(password.msg));
+        }
+        setTimeout(() => {
+          dispatch(onClearError());
+        }, 3000);
+      }
     },
   });
+
+  useEffect(() => {
+    dispatch(onClearError());
+  }, []);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -70,16 +100,11 @@ export const LoginPage: React.FC = () => {
                 },
               }}
             />
-            {isError && !!loginErrors?.data.errors?.email?.msg && (
-              <Alert variant="filled" severity="error" sx={{ marginBlock: 1 }}>
-                {loginErrors?.data?.errors?.email?.msg}
-              </Alert>
-            )}
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
               label="Contraseña"
-              type={showPassword ? "text" : "password"}
+              type={isVisiblePassword ? "text" : "password"}
               placeholder="Contraseña"
               fullWidth
               autoComplete="password"
@@ -88,10 +113,10 @@ export const LoginPage: React.FC = () => {
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
+                      onClick={() => dispatch(onChangePasswordVisibility())}
                       edge="end"
                     >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                      {isVisiblePassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -105,11 +130,6 @@ export const LoginPage: React.FC = () => {
                 },
               }}
             />
-            {isError && !!loginErrors?.data.errors?.password?.msg && (
-              <Alert variant="filled" severity="error" sx={{ marginBlock: 1 }}>
-                {loginErrors?.data?.errors?.password?.msg}
-              </Alert>
-            )}
           </Grid>
           <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
             <Grid item xs={12}>
@@ -124,6 +144,7 @@ export const LoginPage: React.FC = () => {
                 <Typography>Iniciar sesion</Typography>
               </Button>
             </Grid>
+            {errorMessage && <MessageAlert message={errorMessage} />}
           </Grid>
           <Grid container direction="row" justifyContent="end">
             <Typography sx={{ mr: 1, fontSize: 14 }}>

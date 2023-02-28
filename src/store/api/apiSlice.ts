@@ -1,4 +1,3 @@
-import { RootState } from "../store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   IAddNoteBody,
@@ -17,8 +16,7 @@ export const notesApi = createApi({
     baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
       // By default, if we have a token in the store, let's use that for authenticated requests
-      const token =
-        (getState() as RootState).auth.token || localStorage.getItem("token");
+      const token = localStorage.getItem("token");
       if (token) {
         headers.set("x-token", `${token}`);
       }

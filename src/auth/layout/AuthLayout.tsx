@@ -12,6 +12,7 @@ export const AuthLayout: React.FC<IAuthLayoutProps> = ({
         minHeight: "100vh",
         display: "grid",
         placeItems: "center",
+        backgroundColor: "primary.main",
       }}
     >
       <WrapperBox>

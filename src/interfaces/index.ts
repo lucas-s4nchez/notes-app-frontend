@@ -46,8 +46,10 @@ export interface IUserInitialState {
   token: string | null;
 }
 export interface IUiInitialState {
+  isVisiblePassword: boolean;
   isModalOpen: boolean;
   isDarkTheme: boolean;
+  errorMessage: null | string;
 }
 
 //!Componentes
@@ -55,7 +57,6 @@ export interface IAuthLayoutProps {
   children: React.ReactNode;
   title: string;
 }
-
 export interface ICardItemProps {
   _id: string;
   title: string;
@@ -66,10 +67,28 @@ export interface ICardItemProps {
 export interface IChildrenProps {
   children: React.ReactNode;
 }
-
+export interface IMessageAlerProps {
+  message: string;
+}
 //! Otras
 export interface ICustomFetchBaseQueryError {
   status: number;
   data?: { ok: boolean; msg: string };
+  error?: string;
+}
+export interface IAuthenticationFetchBaseQueryError {
+  status: number;
+  data?: {
+    ok?: boolean;
+    errors?: {
+      email?: { values: string; msg: string; param: string; location: string };
+      password?: {
+        values: string;
+        msg: string;
+        param: string;
+        location: string;
+      };
+    };
+  };
   error?: string;
 }
